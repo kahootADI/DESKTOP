@@ -1,0 +1,18 @@
+<kahoot>
+    <idiomas>
+        <idioma>ES</idioma>
+	<idioma>CA</idioma>
+    </idiomas>
+
+    <tipus_pregunta>
+        <tipus>tipus_test</tipus>
+    </tipus_pregunta>
+
+    <timeout>
+        <time>10</time>
+    </timeout>
+
+    <num_max_preguntes>
+        <num_max>15</num_max>
+    </num_max_preguntes>
+</kahoot>
