@@ -19,6 +19,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.swing.JList;
 import javax.swing.JButton;
@@ -32,15 +33,16 @@ public class waitingRoom extends JFrame {
     private DefaultListModel listModel;
     private JLabel lblIp;
     JLabel lblIPLabel;
+    static waitingRoom frame;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void waitingRoomFrame(){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					waitingRoom frame = new waitingRoom();
+					frame = new waitingRoom();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,7 +50,6 @@ public class waitingRoom extends JFrame {
 			}
 		});
 	}
-	
 	public JList getList() {
         return list;
     }
@@ -86,7 +87,7 @@ public class waitingRoom extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JLabel lblTitolDelKahoot = new JLabel("Títol del kahoot:");
+		JLabel lblTitolDelKahoot = new JLabel("Titol del kahoot:");
 		
 		JLabel lblTitol = new JLabel("-");
 		
@@ -101,13 +102,14 @@ public class waitingRoom extends JFrame {
 		listModel = new DefaultListModel<>();
 		list = new JList(listModel);
 		
-		JButton btnComenarKahoot = new JButton("COMENÇAR KAHOOT");
+		JButton btnComenarKahoot = new JButton("COMENZAR KAHOOT");
 		btnComenarKahoot.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
 				Countdown();
+				
 				
 			}
 		});
@@ -176,11 +178,10 @@ public class waitingRoom extends JFrame {
 	
 	private Timer timer;
     private long startTime = -1;
-    private long duration = 11000;
+    private long duration =  Integer.parseInt(configClass.timeout) * 1000;
 	
 	public void Countdown() {
-		
-		timer = new Timer (10, new ActionListener() {
+		timer = new Timer (0, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (startTime < 0) {
@@ -193,6 +194,13 @@ public class waitingRoom extends JFrame {
                 if (clockTime >= duration) {
                     clockTime = duration;
                     timer.stop();
+                    ArrayList<String> answers1 = new ArrayList<String>();
+    		        answers1.add("Primera respuesta");
+    		        answers1.add("Segunda respuesta");
+    		        answers1.add("Tercera respuesta");
+    		        answers1.add("Cuarta respuesta");
+    		        Question.QuestionFrame(answers1);
+    		        dispose();
                 }
                 
                 SimpleDateFormat df = new SimpleDateFormat("ss");

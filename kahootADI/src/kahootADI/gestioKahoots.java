@@ -31,7 +31,8 @@ public class gestioKahoots extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	
+	public static void waitingRoomFrame(){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -94,13 +95,13 @@ public class gestioKahoots extends JFrame {
 		});
 		
 		
-		JList listKahoots = new JList();
-		listKahoots.setModel(new AbstractListModel() {
+		JList<String> listKahoots = new JList<String>();
+		listKahoots.setModel(new AbstractListModel<String>() {
 			String[] values = new String[] {"Kahoot 1", "Kahoot 2", "Kahoot 3", "Kahoot 4", "Kahoot 5"};
 			public int getSize() {
 				return values.length;
 			}
-			public Object getElementAt(int index) {
+			public String getElementAt(int index) {
 				return values[index];
 			}
 		});

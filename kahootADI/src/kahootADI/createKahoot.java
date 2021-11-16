@@ -23,6 +23,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
 
 public class createKahoot extends JFrame {
 
@@ -62,14 +63,15 @@ public class createKahoot extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JLabel lblNewLabel = new JLabel("Títol:");
+		JLabel lblNewLabel = new JLabel("Titol:");
 		
 		tfTitol = new JTextField();
 		tfTitol.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Llista de preguntes");
 		
-		JList listPreguntes = new JList();
+		DefaultListModel<String> listModel = new DefaultListModel<String>();
+		JList<String> listPreguntes = new JList<String>(listModel);
 		
 		JLabel lblNovaPregunta = new JLabel("Nova pregunta");
 		
@@ -81,13 +83,13 @@ public class createKahoot extends JFrame {
 		
 		JLabel lblRespostes = new JLabel("Respostes");
 		
-		JLabel lblComEsContesta = new JLabel("Com es contesta");
+		JLabel lblComEsContesta = new JLabel("Tipus de pregunta");
 		
-		JRadioButton rdbtnSelect1resp = new JRadioButton("Seleccionant 1 o més respostes");
+		JRadioButton rdbtnSelect1resp = new JRadioButton("Selecciona resposta/es");
 		buttonGroup_1.add(rdbtnSelect1resp);
-		
-		JRadioButton rdbtnRedactantResp = new JRadioButton("Redactant la resposta");
-		buttonGroup_1.add(rdbtnRedactantResp);
+		rdbtnSelect1resp.setSelected(true);
+//		JRadioButton rdbtnRedactantResp = new JRadioButton("Redactant la resposta");
+//		buttonGroup_1.add(rdbtnRedactantResp);
 		
 		
 		
@@ -134,20 +136,20 @@ public class createKahoot extends JFrame {
 				}
 				
 				if (count>=2 && insert == true) {
-					System.out.println("Respuesas insertadas correctamente!");
+					System.out.println("Respuestas insertadas correctamente!");
+					listModel.addElement(taNovaPregunta.getText());
 				}
 				if(count<2){
 					String errorMessage = "Se necesitan minimo 2 respuestas";
 					new errorDisplay(errorMessage).setVisible(true);
 				} else if (insert == false) {
-					String errorMessage = "Respuesta correcta vacía";
+					String errorMessage = "Respuesta correcta vacia";
 					new errorDisplay(errorMessage).setVisible(true);
 				}
 				
 				
 			}
 		});
-		
 		
 		tfRespuesta1 = new JTextField();
 		tfRespuesta1.setColumns(10);
@@ -179,15 +181,16 @@ public class createKahoot extends JFrame {
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(40)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(taNovaPregunta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNovaPregunta)
-						.addComponent(listPreguntes, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(lblNewLabel_1)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblNewLabel)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(tfTitol, GroupLayout.PREFERRED_SIZE, 339, GroupLayout.PREFERRED_SIZE)))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(taNovaPregunta)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+							.addComponent(lblNovaPregunta)
+							.addComponent(listPreguntes, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(lblNewLabel_1)
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addComponent(lblNewLabel)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(tfTitol, GroupLayout.PREFERRED_SIZE, 339, GroupLayout.PREFERRED_SIZE))))
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(67)
@@ -204,8 +207,8 @@ public class createKahoot extends JFrame {
 										.addComponent(tfRespuesta4, GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE))
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(chckbxCorrecta3, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-										.addComponent(chckbxCorrecta1, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+										.addComponent(chckbxCorrecta3, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+										.addComponent(chckbxCorrecta1, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
 										.addComponent(chckbxCorrecta2)
 										.addComponent(chckbxCorrecta4))))
 							.addGap(31))
@@ -214,14 +217,14 @@ public class createKahoot extends JFrame {
 							.addComponent(btnBack)
 							.addContainerGap())))
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap(192, Short.MAX_VALUE)
+					.addContainerGap(221, Short.MAX_VALUE)
 					.addComponent(btnAfegirPregunta)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(12)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(rdbtnSelect1resp)
-								.addComponent(rdbtnRedactantResp)
+//								.addComponent(rdbtnRedactantResp)
 								.addComponent(lblComEsContesta)))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(178)
@@ -251,8 +254,7 @@ public class createKahoot extends JFrame {
 						.addComponent(lblNovaPregunta)
 						.addComponent(lblRespostes))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(taNovaPregunta, GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 								.addComponent(tfRespuesta1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -270,14 +272,14 @@ public class createKahoot extends JFrame {
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(tfRespuesta3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(tfRespuesta4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-							.addPreferredGap(ComponentPlacement.RELATED)))
-					.addPreferredGap(ComponentPlacement.RELATED, 46, GroupLayout.PREFERRED_SIZE)
+									.addComponent(tfRespuesta4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+						.addComponent(taNovaPregunta))
+					.addGap(63)
 					.addComponent(lblComEsContesta)
 					.addGap(18)
 					.addComponent(rdbtnSelect1resp)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(rdbtnRedactantResp)
+//					.addComponent(rdbtnRedactantResp)
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnAfegirPregunta)

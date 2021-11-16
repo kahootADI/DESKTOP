@@ -8,9 +8,7 @@
         <tipus>tipus_test</tipus>
     </tipus_pregunta>
 
-    <timeout>
-        <time>10</time>
-    </timeout>
+    <timeout>7</timeout>
 
     <num_max_preguntes>
         <num_max>15</num_max>
