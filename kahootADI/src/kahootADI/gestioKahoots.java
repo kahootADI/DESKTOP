@@ -2,20 +2,31 @@ package kahootADI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import test.common.AppServer;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
+import javax.swing.AbstractListModel;
 
 public class gestioKahoots extends JFrame {
 
 	private JPanel contentPane;
+	static logIn login;
 
 	/**
 	 * Launch the application.
@@ -24,9 +35,9 @@ public class gestioKahoots extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					gestioKahoots frame = new gestioKahoots();
-					frame.setTitle("Gestio de kahoots");
-					frame.setVisible(true);
+					gestioKahoots gestioKahootsframe = new gestioKahoots();
+					gestioKahootsframe.setTitle("Gestio de kahoots");
+					gestioKahootsframe.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -39,14 +50,13 @@ public class gestioKahoots extends JFrame {
 	 */
 	public gestioKahoots() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 650, 500);
+		setBounds(100, 100, 850, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
 		JLabel lblKahoots = new JLabel("KAHOOTS");
-		
-		JList listKahoots = new JList();
+
 		
 		JLabel lblTemes = new JLabel("TEMES");
 		
@@ -59,73 +69,115 @@ public class gestioKahoots extends JFrame {
 		JButton btnVeureDetall = new JButton("Veure detall");
 		
 		JButton btnCrearKahoot = new JButton("Crear kahoot");
+		btnCrearKahoot.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+
+				dispose();
+				createKahoot createkahoot = new createKahoot();
+				createkahoot.setVisible(true);
+				
+			}
+		});
 		
 		JButton btnJugar = new JButton("Jugar");
+		btnJugar.setEnabled(false);
+		
+		btnJugar.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				
+				dispose();
+				AppServer appServer = new AppServer();
+				
+			}
+		});
+		
+		
+		JList listKahoots = new JList();
+		listKahoots.setModel(new AbstractListModel() {
+			String[] values = new String[] {"Kahoot 1", "Kahoot 2", "Kahoot 3", "Kahoot 4", "Kahoot 5"};
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		
+		listKahoots.addListSelectionListener(new ListSelectionListener() {
+
+			public void valueChanged(ListSelectionEvent arg0) {
+				btnJugar.setEnabled(true);
+				
+			}
+		});
+		
+	
+		
 		
 		JButton btnFiltrarTema = new JButton("Filtrar per tema");
 		
 		JButton btnEditarTemes = new JButton("Editar temes");
+		
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(65)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(lblKahoots)
-						.addComponent(listKahoots, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(btnVeureDetall)
-							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(btnCrearKahoot)))
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(31)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(listTemesSel, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-									.addComponent(lblTemesSel)
-									.addComponent(lblTemes)
-									.addComponent(listTemes, GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE))))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(btnEditarTemes, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(btnFiltrarTema, Alignment.LEADING))
-							.addGap(41)))
-					.addContainerGap(108, Short.MAX_VALUE))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(124)
-					.addComponent(btnJugar, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-					.addGap(372))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(45)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblKahoots)
-						.addComponent(lblTemes))
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(listTemes, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-							.addComponent(lblTemesSel)
-							.addGap(7)
-							.addComponent(listTemesSel, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE))
-						.addComponent(listKahoots, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE))
-					.addGap(36)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnVeureDetall)
-								.addComponent(btnCrearKahoot))
-							.addGap(18)
-							.addComponent(btnJugar))
+							.addGap(65)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(lblKahoots)
+									.addPreferredGap(ComponentPlacement.RELATED))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addComponent(btnVeureDetall, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(btnCrearKahoot, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE))
+										.addComponent(listKahoots, GroupLayout.PREFERRED_SIZE, 313, GroupLayout.PREFERRED_SIZE))
+									.addPreferredGap(ComponentPlacement.RELATED))))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(btnFiltrarTema)
-							.addGap(18)
-							.addComponent(btnEditarTemes)))
+							.addGap(73)
+							.addComponent(btnJugar, GroupLayout.PREFERRED_SIZE, 294, GroupLayout.PREFERRED_SIZE)))
+					.addGap(107)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(btnFiltrarTema, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(listTemes, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(listTemesSel, GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+						.addComponent(lblTemesSel)
+						.addComponent(btnEditarTemes, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(lblTemes))
+					.addGap(60))
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap(92, Short.MAX_VALUE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblKahoots)
+						.addComponent(lblTemes))
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+							.addComponent(listKahoots, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
+							.addComponent(listTemes, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(lblTemesSel)
+							.addGap(7)
+							.addComponent(listTemesSel, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)))
+					.addGap(36)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnVeureDetall)
+						.addComponent(btnFiltrarTema)
+						.addComponent(btnCrearKahoot))
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnEditarTemes)
+						.addComponent(btnJugar))
 					.addGap(93))
 		);
 		contentPane.setLayout(gl_contentPane);

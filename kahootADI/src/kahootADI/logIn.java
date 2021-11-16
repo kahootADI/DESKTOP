@@ -5,7 +5,10 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -32,11 +35,13 @@ public class logIn extends JFrame {
 	private String user = "Daniel";
 	private String password = "Daniel123";
 	static logIn logInframe;
-
+	
 	/**
 	 * Launch the application.
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+		configClass.main(args);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -148,4 +153,5 @@ public class logIn extends JFrame {
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
+	
 }
