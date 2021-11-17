@@ -138,6 +138,12 @@ public class createKahoot extends JFrame {
 				if (count>=2 && insert == true) {
 					System.out.println("Respuestas insertadas correctamente!");
 					listModel.addElement(taNovaPregunta.getText());
+					taNovaPregunta.setText("");
+					tfRespuesta1.setText("");
+					tfRespuesta2.setText("");
+					tfRespuesta3.setText("");
+					tfRespuesta4.setText("");
+					buttonGroup.clearSelection();
 				}
 				if(count<2){
 					String errorMessage = "Se necesitan minimo 2 respuestas";

@@ -27,6 +27,15 @@ public class gestioKahoots extends JFrame {
 
 	private JPanel contentPane;
 	static logIn login;
+	static String titolKahoot;
+
+	public static String getTitolKahoot() {
+		return titolKahoot;
+	}
+
+	public void setTitolKahoot(String titolKahoot) {
+		this.titolKahoot = titolKahoot;
+	}
 
 	/**
 	 * Launch the application.
@@ -89,8 +98,7 @@ public class gestioKahoots extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				dispose();
-				AppServer appServer = new AppServer();
-				
+				AppServer appServer = new AppServer();				
 			}
 		});
 		
@@ -110,7 +118,7 @@ public class gestioKahoots extends JFrame {
 
 			public void valueChanged(ListSelectionEvent arg0) {
 				btnJugar.setEnabled(true);
-				
+				titolKahoot = listKahoots.getSelectedValue();
 			}
 		});
 		

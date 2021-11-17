@@ -89,7 +89,7 @@ public class waitingRoom extends JFrame {
 		
 		JLabel lblTitolDelKahoot = new JLabel("Titol del kahoot:");
 		
-		JLabel lblTitol = new JLabel("-");
+		JLabel lblTitol = new JLabel(gestioKahoots.getTitolKahoot());
 		
 		lblIPLabel = new JLabel("IP:");
 		
@@ -130,7 +130,7 @@ public class waitingRoom extends JFrame {
 					.addGap(54)
 					.addComponent(lblTitolDelKahoot)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblTitol, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lblTitol, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
 					.addGap(218)
 					.addComponent(lblCountdown, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
@@ -163,7 +163,7 @@ public class waitingRoom extends JFrame {
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(lblIPLabel)
 									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(lblIp, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+									.addComponent(lblIp, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE))
 								.addComponent(lblCountdown, GroupLayout.PREFERRED_SIZE, 74, GroupLayout.PREFERRED_SIZE))
 							.addGap(26)
 							.addComponent(lblEsperantJugadors)))
