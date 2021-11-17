@@ -130,7 +130,7 @@ public class waitingRoom extends JFrame {
 					.addGap(54)
 					.addComponent(lblTitolDelKahoot)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblTitol, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lblTitol, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
 					.addGap(218)
 					.addComponent(lblCountdown, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
