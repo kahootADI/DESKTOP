@@ -6,6 +6,8 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/AlexLariosAlmendros/OneDrive - 5Skill Solutions/Escritorio/Kahoot/lipermi-0.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/alexl/OneDrive/Escritorio/CICLOS/AMS2/PROJECTES/KahootADI/DESKTOP/lipermi-0.4.jar"/>
+	<classpathentry kind="lib" path="/Kahoot/src"/>
+	<classpathentry kind="src" path="/Kahoot"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
