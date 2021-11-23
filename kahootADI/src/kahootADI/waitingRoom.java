@@ -30,6 +30,7 @@ import javax.swing.JButton;
 import java.awt.Color;
 
 public class waitingRoom extends JFrame {
+	
 	private JPanel contentPane;
 	JLabel lblCountdown;
 	private JList list;

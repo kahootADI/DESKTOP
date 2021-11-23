@@ -94,25 +94,25 @@ public class Question extends JFrame {
 				answer1.setEnabled(false);
 				answer1.setVisible(true);
 				answer1.setForeground(Color.white);
-				answer1.setBackground(Color.blue);
+				answer1.setBackground(Color.RED);
 
 				answer2.setText(answers1.get(1).getAnswer());
 				answer2.setEnabled(false);
 				answer2.setVisible(true);
 				answer2.setForeground(Color.white);
-				answer2.setBackground(Color.red);
+				answer2.setBackground(Color.BLUE);
 			}
 			if (answers1.size() >= 3) {
 				answer3.setText(answers1.get(2).getAnswer());
 				answer3.setEnabled(false);
 				answer3.setVisible(true);
-				answer3.setBackground(Color.yellow);
+				answer3.setBackground(Color.GREEN);
 			}
 			if (answers1.size() == 4) {
 				answer4.setText(answers1.get(3).getAnswer());
 				answer4.setEnabled(false);
 				answer4.setVisible(true);
-				answer4.setBackground(Color.green);
+				answer4.setBackground(Color.YELLOW);
 			}
 
 			countLabel = new JLabel("");

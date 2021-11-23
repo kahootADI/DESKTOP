@@ -6,11 +6,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import dao.AnswerDao;
+import dao.KahootDao;
+import dao.QuestionDao;
+import model.Answer;
+import model.Kahoot;
+import model.Question;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -143,6 +152,23 @@ public class createKahoot extends JFrame {
 					new errorDisplay(errorMessage).setVisible(true);
 				} else {
 					System.out.println("Respuestas insertadas correctamente!");
+					
+					//Guardamos la pregunta
+					QuestionDao questionDao = new QuestionDao();
+					Question question = new Question(taNovaPregunta.getText());
+					questionDao.saveQuestion(question);
+					
+					//Guardamos las respuestas
+					AnswerDao answerDao = new AnswerDao();
+					for (Map.Entry<JTextField, JCheckBox> entry : answers.entrySet()) {
+						if (entry.getValue().isSelected()) {
+							Answer answer = new Answer(entry.getKey().getText(), true, question);
+							answerDao.saveAnswer(answer);
+						} else {
+							Answer answer = new Answer(entry.getKey().getText(), false, question);
+							answerDao.saveAnswer(answer);
+						}
+					}
 					listModel.addElement(taNovaPregunta.getText());
 					taNovaPregunta.setText("");
 					tfRespuesta1.setText("");
@@ -155,6 +181,26 @@ public class createKahoot extends JFrame {
 			}
 		});
 
+		btnGuardarNouKahoot.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (taNovaPregunta.getText().isEmpty()) {
+					KahootDao kahootDao = new KahootDao();
+					Kahoot kahoot = new Kahoot(tfTitol.getText(), logIn.getUserLogin());
+					kahootDao.saveKahoot(kahoot);
+					List<Question> questions = QuestionDao.getAllQuestionForNewKahoot();
+					for (Question q : questions) {
+						QuestionDao.UpdateQuestionKahoot(q, kahoot);
+					}
+					dispose();
+					gestioKahoots.gestioKahootsFrame();
+				} else {
+					String errorMessage = "Guarda la ultima pregunta";
+					new errorDisplay(errorMessage).setVisible(true);
+				}
+			}
+		});
 		tfRespuesta1 = new JTextField();
 		tfRespuesta1.setColumns(10);
 
@@ -173,8 +219,7 @@ public class createKahoot extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 
 				dispose();
-				gestioKahoots geskahoots = new gestioKahoots();
-				geskahoots.setVisible(true);
+				gestioKahoots.gestioKahootsFrame();
 
 			}
 		});
