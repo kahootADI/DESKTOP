@@ -1,38 +1,47 @@
 package kahootADI;
-
 import java.awt.EventQueue;
-import java.awt.Window;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
-import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import dao.UserDao;
+import model.User;
+
+
+
+
+
 
 public class logIn extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textUser;
 	private JPasswordField textPassword;
-	private String user = "Daniel";
-	private String password = "Daniel123";
 	static logIn logInframe;
+	static User userLogin;
+
+	public static User getUserLogin() {
+		return userLogin;
+	}
+
+	public void setUserLogin(User userLogin) {
+		logIn.userLogin = userLogin;
+	}
 
 	/**
 	 * Launch the application.
@@ -84,23 +93,35 @@ public class logIn extends JFrame {
 
 				System.out.println(userText);
 				System.out.println(userPassword);
+				
 
-				if (userText.equals("Daniel") && userPassword.equals("Daniel123")) {
+				UserDao userDao = new UserDao();
+				userLogin = userDao.getUserByName(userText);
+				
+				
+				if (userLogin != null && userText.equals(userLogin.getUsername()) && userPassword.equals(userLogin.getPassword())) {
 
 					logInframe.dispose();
-					gestioKahoots.waitingRoomFrame();
+					gestioKahoots.gestioKahootsFrame();
 
-				} else {
-					String errorMessage = "Log in failed. Try again!";
+				} 
+				
+				else if (userLogin != null && userText.equals(userLogin.getUsername())){
+					String errorMessage = "La contraseña es incorrecta";
+					new errorDisplay(errorMessage).setVisible(true);
+					
+				}else if (userLogin == null){
+					String errorMessage = "El usuario no existe";
 					new errorDisplay(errorMessage).setVisible(true);
 				}
+				
 			}
 		});
 
 		JButton btnRememberPass = new JButton("Remember Password");
 
 		BufferedImage logInPic = ImageIO.read(new File("kahootIcon.png"));
-		JLabel lblImageIcon = new JLabel(new ImageIcon(logInPic.getScaledInstance(200, 200, logInPic.SCALE_FAST)));
+		JLabel lblImageIcon = new JLabel(new ImageIcon(logInPic.getScaledInstance(200, 200, Image.SCALE_FAST)));
 		lblImageIcon.setBounds(10, 10, 10, 10);
 		getContentPane().add(lblImageIcon);
 

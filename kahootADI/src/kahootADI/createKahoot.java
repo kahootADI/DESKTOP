@@ -6,11 +6,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import dao.AnswerDao;
+import dao.KahootDao;
+import dao.QuestionDao;
+import model.Answer;
+import model.Kahoot;
+import model.Question;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -117,25 +126,23 @@ public class createKahoot extends JFrame {
 
 				for (Map.Entry<JTextField, JCheckBox> entry : answers.entrySet()) {
 
-
 					if (!entry.getKey().getText().isEmpty()) {
 						count++;
-						System.out.println("Respuesta: " + entry.getKey().getText() + " Correcta -> " + entry.getValue().isSelected());
+						System.out.println("Respuesta: " + entry.getKey().getText() + " Correcta -> "
+								+ entry.getValue().isSelected());
 					} else {
 						if (entry.getValue().isSelected()) {
 							insert = false;
 						}
 					}
 				}
-				if(taNovaPregunta.getText().isEmpty()) {
+				if (taNovaPregunta.getText().isEmpty()) {
 					String errorMessage = "Falta la pregunta";
 					new errorDisplay(errorMessage).setVisible(true);
-				}
-				else if(buttonGroup.getSelection() == null ) {
+				} else if (buttonGroup.getSelection() == null) {
 					String errorMessage = "Seleccione una respuesta correcta";
 					new errorDisplay(errorMessage).setVisible(true);
-				}
-				else if (count < 2) {
+				} else if (count < 2) {
 					String errorMessage = "Se necesitan minimo 2 respuestas";
 					new errorDisplay(errorMessage).setVisible(true);
 				} else if (insert == false) {
@@ -143,6 +150,23 @@ public class createKahoot extends JFrame {
 					new errorDisplay(errorMessage).setVisible(true);
 				} else {
 					System.out.println("Respuestas insertadas correctamente!");
+
+					// Guardamos la pregunta
+					QuestionDao questionDao = new QuestionDao();
+					Question question = new Question(taNovaPregunta.getText());
+					questionDao.saveQuestion(question);
+
+					// Guardamos las respuestas
+					AnswerDao answerDao = new AnswerDao();
+					for (Map.Entry<JTextField, JCheckBox> entry : answers.entrySet()) {
+						if (entry.getValue().isSelected()) {
+							Answer answer = new Answer(entry.getKey().getText(), true, question);
+							answerDao.saveAnswer(answer);
+						} else {
+							Answer answer = new Answer(entry.getKey().getText(), false, question);
+							answerDao.saveAnswer(answer);
+						}
+					}
 					listModel.addElement(taNovaPregunta.getText());
 					taNovaPregunta.setText("");
 					tfRespuesta1.setText("");
@@ -155,6 +179,32 @@ public class createKahoot extends JFrame {
 			}
 		});
 
+		btnGuardarNouKahoot.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (taNovaPregunta.getText().isEmpty()) {
+					KahootDao kahootDao = new KahootDao();
+					List<Question> questions = QuestionDao.getAllQuestionForNewKahoot();
+					System.out.println(questions);
+					if (questions.size() > 0) {
+						Kahoot kahoot = new Kahoot(tfTitol.getText(), logIn.getUserLogin());
+						kahootDao.saveKahoot(kahoot);
+						for (Question q : questions) {
+							QuestionDao.UpdateQuestionKahoot(q, kahoot);
+						}
+						dispose();
+						gestioKahoots.gestioKahootsFrame();
+					} else {
+						String errorMessage = "Introdueix alguna pregunta";
+						new errorDisplay(errorMessage).setVisible(true);
+					}
+				} else {
+					String errorMessage = "Guarda la ultima pregunta";
+					new errorDisplay(errorMessage).setVisible(true);
+				}
+			}
+		});
 		tfRespuesta1 = new JTextField();
 		tfRespuesta1.setColumns(10);
 
@@ -173,8 +223,7 @@ public class createKahoot extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 
 				dispose();
-				gestioKahoots geskahoots = new gestioKahoots();
-				geskahoots.setVisible(true);
+				gestioKahoots.gestioKahootsFrame();
 
 			}
 		});
