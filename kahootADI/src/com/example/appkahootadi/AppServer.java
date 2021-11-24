@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
+import java.util.Iterator;
+
+import javax.swing.ListModel;
 
 import com.example.appkahootadi.TestService;
 
@@ -79,5 +82,17 @@ public class AppServer implements TestService{
 	@Override
 	public boolean kahootStarted() {
 		return wr.isPlaying();
+	}
+	@Override
+	public boolean checkNicknames(String actualNickname) {
+		boolean exists = false;
+		ListModel model = wr.getList().getModel();
+		for (int i = 0; i < model.getSize(); i++) {
+			System.out.println(actualNickname+" "+wr.getListModel().get(i));
+			if(actualNickname.equals(wr.getListModel().get(i))){
+				exists = true;
+			}
+		}
+		return exists;
 	}
 }
