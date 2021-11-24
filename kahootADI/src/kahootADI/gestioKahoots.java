@@ -1,11 +1,15 @@
 package kahootADI;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,7 +17,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import test.common.AppServer;
+import com.example.appkahootadi.AppServer;
+
+import dao.KahootDao;
+import model.Kahoot;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -22,26 +29,23 @@ import javax.swing.JList;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
 
 public class gestioKahoots extends JFrame {
 
 	private JPanel contentPane;
 	static logIn login;
-	static String titolKahoot;
-
-	public static String getTitolKahoot() {
-		return titolKahoot;
-	}
-
-	public void setTitolKahoot(String titolKahoot) {
-		this.titolKahoot = titolKahoot;
+	static Kahoot selectKahoot;
+	
+	public static void main(String[] args) throws IOException {
+		 gestioKahootsFrame();
 	}
 
 	/**
 	 * Launch the application.
 	 */
 	
-	public static void waitingRoomFrame(){
+	public static void gestioKahootsFrame(){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -58,6 +62,7 @@ public class gestioKahoots extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "serial", "unchecked" })
 	public gestioKahoots() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 850, 600);
@@ -102,23 +107,20 @@ public class gestioKahoots extends JFrame {
 			}
 		});
 		
-		
+		List<Kahoot> kahoots = KahootDao.getAllKahootByUser(logIn.getUserLogin().getId());
 		JList<String> listKahoots = new JList<String>();
-		listKahoots.setModel(new AbstractListModel<String>() {
-			String[] values = new String[] {"Kahoot 1", "Kahoot 2", "Kahoot 3", "Kahoot 4", "Kahoot 5"};
-			public int getSize() {
-				return values.length;
-			}
-			public String getElementAt(int index) {
-				return values[index];
-			}
-		});
+		@SuppressWarnings("rawtypes")
+		DefaultListModel modelo = new DefaultListModel();
+		for(int i = 0; i < kahoots.size(); i++) {
+			modelo.addElement(kahoots.get(i).getTitle());
+		}
+		listKahoots.setModel(modelo);
 		
 		listKahoots.addListSelectionListener(new ListSelectionListener() {
 
 			public void valueChanged(ListSelectionEvent arg0) {
 				btnJugar.setEnabled(true);
-				titolKahoot = listKahoots.getSelectedValue();
+				selectKahoot = KahootDao.getKahootByName(listKahoots.getSelectedValue());
 			}
 		});
 		
@@ -191,4 +193,13 @@ public class gestioKahoots extends JFrame {
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
+
+	public static Kahoot getSelectKahoot() {
+		return selectKahoot;
+	}
+
+	public void setSelectKahoot(Kahoot selectKahoot) {
+		this.selectKahoot = selectKahoot;
+	}
+	
 }

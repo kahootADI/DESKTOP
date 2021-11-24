@@ -3,11 +3,14 @@ package kahootADI;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
-import test.common.*;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.example.appkahootadi.*;
+
+import dao.QuestionDao;
+
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -20,13 +23,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JList;
 import javax.swing.JButton;
 import java.awt.Color;
 
 public class waitingRoom extends JFrame {
-
+	
 	private JPanel contentPane;
 	JLabel lblCountdown;
 	private JList list;
@@ -34,6 +38,7 @@ public class waitingRoom extends JFrame {
     private JLabel lblIp;
     JLabel lblIPLabel;
     static waitingRoom frame;
+    private boolean playing = true;
 
 	/**
 	 * Launch the application.
@@ -76,7 +81,12 @@ public class waitingRoom extends JFrame {
 	public void setLblIPLabel(JLabel lblIPLabel) {
 		this.lblIPLabel = lblIPLabel;
 	}
-
+	public boolean isPlaying() {
+		return playing;
+	}
+	public void setPlaying(boolean playing) {
+		this.playing = playing;
+	}
 	/**
 	 * Create the frame.
 	 */
@@ -89,7 +99,7 @@ public class waitingRoom extends JFrame {
 		
 		JLabel lblTitolDelKahoot = new JLabel("Titol del kahoot:");
 		
-		JLabel lblTitol = new JLabel(gestioKahoots.getTitolKahoot());
+		JLabel lblTitol = new JLabel(gestioKahoots.getSelectKahoot().getTitle());
 		
 		lblIPLabel = new JLabel("IP:");
 		
@@ -130,7 +140,7 @@ public class waitingRoom extends JFrame {
 					.addGap(54)
 					.addComponent(lblTitolDelKahoot)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblTitol, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lblTitol, GroupLayout.PREFERRED_SIZE, lblTitol.getText().length(), GroupLayout.PREFERRED_SIZE)
 					.addGap(218)
 					.addComponent(lblCountdown, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
@@ -194,12 +204,8 @@ public class waitingRoom extends JFrame {
                 if (clockTime >= duration) {
                     clockTime = duration;
                     timer.stop();
-                    ArrayList<String> answers1 = new ArrayList<String>();
-    		        answers1.add("Primera respuesta");
-    		        answers1.add("Segunda respuesta");
-    		        answers1.add("Tercera respuesta");
-    		        answers1.add("Cuarta respuesta");
-    		        Question.QuestionFrame(answers1);
+    		        List<model.Question> questions = QuestionDao.getAllQuestionByKahoot(gestioKahoots.getSelectKahoot().getId());
+    		        Question.QuestionFrame(questions);
     		        dispose();
                 }
                 
