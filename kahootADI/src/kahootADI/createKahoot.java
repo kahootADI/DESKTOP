@@ -126,25 +126,23 @@ public class createKahoot extends JFrame {
 
 				for (Map.Entry<JTextField, JCheckBox> entry : answers.entrySet()) {
 
-
 					if (!entry.getKey().getText().isEmpty()) {
 						count++;
-						System.out.println("Respuesta: " + entry.getKey().getText() + " Correcta -> " + entry.getValue().isSelected());
+						System.out.println("Respuesta: " + entry.getKey().getText() + " Correcta -> "
+								+ entry.getValue().isSelected());
 					} else {
 						if (entry.getValue().isSelected()) {
 							insert = false;
 						}
 					}
 				}
-				if(taNovaPregunta.getText().isEmpty()) {
+				if (taNovaPregunta.getText().isEmpty()) {
 					String errorMessage = "Falta la pregunta";
 					new errorDisplay(errorMessage).setVisible(true);
-				}
-				else if(buttonGroup.getSelection() == null ) {
+				} else if (buttonGroup.getSelection() == null) {
 					String errorMessage = "Seleccione una respuesta correcta";
 					new errorDisplay(errorMessage).setVisible(true);
-				}
-				else if (count < 2) {
+				} else if (count < 2) {
 					String errorMessage = "Se necesitan minimo 2 respuestas";
 					new errorDisplay(errorMessage).setVisible(true);
 				} else if (insert == false) {
@@ -152,13 +150,13 @@ public class createKahoot extends JFrame {
 					new errorDisplay(errorMessage).setVisible(true);
 				} else {
 					System.out.println("Respuestas insertadas correctamente!");
-					
-					//Guardamos la pregunta
+
+					// Guardamos la pregunta
 					QuestionDao questionDao = new QuestionDao();
 					Question question = new Question(taNovaPregunta.getText());
 					questionDao.saveQuestion(question);
-					
-					//Guardamos las respuestas
+
+					// Guardamos las respuestas
 					AnswerDao answerDao = new AnswerDao();
 					for (Map.Entry<JTextField, JCheckBox> entry : answers.entrySet()) {
 						if (entry.getValue().isSelected()) {
@@ -187,14 +185,20 @@ public class createKahoot extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (taNovaPregunta.getText().isEmpty()) {
 					KahootDao kahootDao = new KahootDao();
-					Kahoot kahoot = new Kahoot(tfTitol.getText(), logIn.getUserLogin());
-					kahootDao.saveKahoot(kahoot);
 					List<Question> questions = QuestionDao.getAllQuestionForNewKahoot();
-					for (Question q : questions) {
-						QuestionDao.UpdateQuestionKahoot(q, kahoot);
+					System.out.println(questions);
+					if (questions.size() > 0) {
+						Kahoot kahoot = new Kahoot(tfTitol.getText(), logIn.getUserLogin());
+						kahootDao.saveKahoot(kahoot);
+						for (Question q : questions) {
+							QuestionDao.UpdateQuestionKahoot(q, kahoot);
+						}
+						dispose();
+						gestioKahoots.gestioKahootsFrame();
+					} else {
+						String errorMessage = "Introdueix alguna pregunta";
+						new errorDisplay(errorMessage).setVisible(true);
 					}
-					dispose();
-					gestioKahoots.gestioKahootsFrame();
 				} else {
 					String errorMessage = "Guarda la ultima pregunta";
 					new errorDisplay(errorMessage).setVisible(true);

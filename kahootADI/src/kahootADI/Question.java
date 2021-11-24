@@ -73,6 +73,7 @@ public class Question extends JFrame {
 			answers1 = AnswerDao.getAllQuestionByKahoot(questions.get(0).getId());
 			//Intentar pasar las respuestas mezcladas
 			Collections.shuffle(answers1);
+			
 			answer1 = new JButton();
 			answer1.setEnabled(false);
 			answer1.setVisible(false);

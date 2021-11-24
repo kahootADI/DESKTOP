@@ -3,11 +3,11 @@ package kahootADI;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
-import test.common.*;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.example.appkahootadi.*;
 
 import dao.QuestionDao;
 
@@ -38,6 +38,7 @@ public class waitingRoom extends JFrame {
     private JLabel lblIp;
     JLabel lblIPLabel;
     static waitingRoom frame;
+    private boolean playing = true;
 
 	/**
 	 * Launch the application.
@@ -80,7 +81,12 @@ public class waitingRoom extends JFrame {
 	public void setLblIPLabel(JLabel lblIPLabel) {
 		this.lblIPLabel = lblIPLabel;
 	}
-
+	public boolean isPlaying() {
+		return playing;
+	}
+	public void setPlaying(boolean playing) {
+		this.playing = playing;
+	}
 	/**
 	 * Create the frame.
 	 */

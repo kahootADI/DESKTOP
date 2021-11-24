@@ -1,32 +1,27 @@
-
-//TestService.java
-package test.common;
+package com.example.appkahootadi;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.net.Socket;
 import java.util.Enumeration;
+import java.util.Iterator;
+
+import javax.swing.ListModel;
+
+import com.example.appkahootadi.TestService;
 
 import kahootADI.waitingRoom;
-import test.common.TestService;
-
-import lipermi.exception.LipeRMIException;
-import lipermi.handler.CallHandler;
-import lipermi.net.IServerListener;
 
 //TestServer.java
 import java.io.IOException;
 import java.net.Socket;
-
-import test.common.TestService;
 
 import lipermi.exception.LipeRMIException;
 import lipermi.handler.CallHandler;
 import lipermi.net.IServerListener;
 import lipermi.net.Server;
 
-public class AppServer implements TestService {
+public class AppServer implements TestService{
   private String ip;
   private waitingRoom wr;
   public static void main(String[] args) {
@@ -64,7 +59,7 @@ public class AppServer implements TestService {
               
               @Override
               public void clientConnected(Socket socket) {
-                  addPlayerToList(wr,socket.getRemoteSocketAddress().toString());
+                  //addPlayerToList(wr,sendNickname(ip));
 
               }
           });
@@ -75,13 +70,35 @@ public class AppServer implements TestService {
 
 
 @Override
-  public String getResponse() {
-      System.out.println("getResponse called");
-	  return "Your data: ";
+  public String getNickname(String nickname) {
+	  addPlayerToList(wr,nickname);
+	  return nickname;
   }
 
-	public void addPlayerToList(waitingRoom wr,String playerID) {
-		wr.getListModel().addElement(playerID);
+	public void addPlayerToList(waitingRoom wr,String player) {
+		wr.getListModel().addElement(player);
 		
+	}
+	@Override
+	public boolean kahootStarted() {
+		return wr.isPlaying();
+	}
+
+	@Override
+	public boolean checkNicknames(String actualNickname) {
+		boolean exists = false;
+		ListModel model = wr.getList().getModel();
+		for (int i = 0; i < model.getSize(); i++) {
+			System.out.println(actualNickname+" "+wr.getListModel().get(i));
+			if(actualNickname.equals(wr.getListModel().get(i))){
+				exists = true;
+			}
+		}
+		return exists;
+	}
+	@Override
+	public int getSizeList() {
+		ListModel model = wr.getList().getModel();
+		return model.getSize();
 	}
 }
