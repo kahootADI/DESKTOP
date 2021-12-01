@@ -9,12 +9,15 @@ import javax.swing.border.EmptyBorder;
 
 import com.example.appkahootadi.AppServer;
 
+import model.Player;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -82,6 +85,12 @@ public class rankingScreen extends JFrame {
 		lblClassificacio.setFont(new Font("Lato Semibold", Font.BOLD | Font.ITALIC, 40));
 		
 		JList list = new JList();
+		DefaultListModel<String> modelo = new DefaultListModel<String>();
+		
+		for (Player p : waitingRoom.getPlayers()) {
+			modelo.addElement(p.getUsername());
+			list.setModel(modelo);
+		}
 		
 		JButton btnSortir = new JButton("Sortir");
 		btnSortir.addActionListener(new ActionListener() {

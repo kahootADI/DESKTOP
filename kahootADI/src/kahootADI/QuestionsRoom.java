@@ -11,7 +11,6 @@ import com.example.appkahootadi.AppServer;
 import com.example.appkahootadi.TestService;
 
 import dao.AnswerDao;
-import dao.ConcourseDao;
 import dao.PlayerDao;
 import model.Answer;
 import model.Concourse;
@@ -39,6 +38,7 @@ import java.awt.event.ActionEvent;
 public class QuestionsRoom extends JFrame {
 
 	private JPanel contentPane;
+	private AppServer appServer;
 	
 	JButton answer;
 	JButton answer2;
@@ -226,8 +226,8 @@ public class QuestionsRoom extends JFrame {
 						Concourse actualConcourse = waitingRoom.getConcourse();
 						System.out.println("Ultimo concurso: " + actualConcourse.getId());
 						PlayerDao playerDao = new PlayerDao();
-						List<Player> actualPlayers = playerDao.getAllPlayerByConcourse(actualConcourse.getId());
-						for(int i = 0 ; i < actualPlayers.size() ; i++) {
+						List<Player> actualPlayers = waitingRoom.getPlayers();
+						for(int i = 0 ; i < actualPlayers.size(); i++) {
 							System.out.println(actualPlayers.get(i));
 						}
 	                    for (String token : answerPlayer.keySet()) {
@@ -241,6 +241,7 @@ public class QuestionsRoom extends JFrame {
 						}
 						questions.remove(0);
 						panelQR = false;
+						appServer = new AppServer();
 						QuestionRoomFrame(questions);
 					} else {
 						System.exit(0);
@@ -264,8 +265,8 @@ public class QuestionsRoom extends JFrame {
 
 		DefaultListModel<String> modelo = new DefaultListModel<String>();
 
-		for (model.Question q : questions) {
-			modelo.addElement(q.getQuestion());
+		for (Player p : waitingRoom.getPlayers()) {
+			modelo.addElement(p.getUsername());
 			list.setModel(modelo);
 		}
 

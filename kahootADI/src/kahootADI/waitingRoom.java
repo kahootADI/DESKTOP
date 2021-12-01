@@ -55,11 +55,19 @@ public class waitingRoom extends JFrame {
 	private Kahoot kahoot = gestioKahoots.getSelectKahoot();
 	QuestionsRoom qr;
 	configClass cc;
-	ArrayList<Player> players = new ArrayList<Player>();
+	static ArrayList<Player> players = new ArrayList<Player>();
 	Map<String, String> tokenPlayer = new HashMap<String, String>();
 	Map<String, Long> pointsPlayer = new HashMap<String, Long>();
 	static Concourse concourse;
 	
+	public static ArrayList<Player> getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(ArrayList<Player> players) {
+		this.players = players;
+	}
+
 	public static Concourse getConcourse() {
 		return concourse;
 	}
