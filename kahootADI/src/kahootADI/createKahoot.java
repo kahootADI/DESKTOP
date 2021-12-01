@@ -183,24 +183,29 @@ public class createKahoot extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (taNovaPregunta.getText().isEmpty()) {
-					KahootDao kahootDao = new KahootDao();
-					List<Question> questions = QuestionDao.getAllQuestionForNewKahoot();
-					System.out.println(questions);
-					if (questions.size() > 0) {
-						Kahoot kahoot = new Kahoot(tfTitol.getText(), logIn.getUserLogin());
-						kahootDao.saveKahoot(kahoot);
-						for (Question q : questions) {
-							QuestionDao.UpdateQuestionKahoot(q, kahoot);
+				if (!tfTitol.getText().isEmpty()) {
+					if (taNovaPregunta.getText().isEmpty()) {
+						KahootDao kahootDao = new KahootDao();
+						List<Question> questions = QuestionDao.getAllQuestionForNewKahoot();
+						System.out.println(questions);
+						if (questions.size() > 0) {
+							Kahoot kahoot = new Kahoot(tfTitol.getText(), logIn.getUserLogin());
+							kahootDao.saveKahoot(kahoot);
+							for (Question q : questions) {
+								QuestionDao.UpdateQuestionKahoot(q, kahoot);
+							}
+							dispose();
+							gestioKahoots.gestioKahootsFrame();
+						} else {
+							String errorMessage = "Introdueix alguna pregunta";
+							new errorDisplay(errorMessage).setVisible(true);
 						}
-						dispose();
-						gestioKahoots.gestioKahootsFrame();
 					} else {
-						String errorMessage = "Introdueix alguna pregunta";
+						String errorMessage = "Guarda la ultima pregunta";
 						new errorDisplay(errorMessage).setVisible(true);
 					}
 				} else {
-					String errorMessage = "Guarda la ultima pregunta";
+					String errorMessage = "Introduce un titulo";
 					new errorDisplay(errorMessage).setVisible(true);
 				}
 			}
