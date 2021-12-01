@@ -1,4 +1,5 @@
 package kahootADI;
+
 import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -21,11 +22,6 @@ import javax.swing.border.EmptyBorder;
 
 import dao.UserDao;
 import model.User;
-
-
-
-
-
 
 public class logIn extends JFrame {
 
@@ -93,28 +89,26 @@ public class logIn extends JFrame {
 
 				System.out.println(userText);
 				System.out.println(userPassword);
-				
 
 				UserDao userDao = new UserDao();
 				userLogin = userDao.getUserByName(userText);
-				
-				
-				if (userLogin != null && userText.equals(userLogin.getUsername()) && userPassword.equals(userLogin.getPassword())) {
+
+				if (userLogin != null && userText.equals(userLogin.getUsername())
+						&& userPassword.equals(userLogin.getPassword())) {
 
 					logInframe.dispose();
 					gestioKahoots.gestioKahootsFrame();
 
-				} 
-				
-				else if (userLogin != null && userText.equals(userLogin.getUsername())){
+				}
+
+				else if (userLogin != null && userText.equals(userLogin.getUsername())) {
 					String errorMessage = "La contraseña es incorrecta";
 					new errorDisplay(errorMessage).setVisible(true);
-					
-				}else if (userLogin == null){
+
+				} else if (userLogin == null) {
 					String errorMessage = "El usuario no existe";
 					new errorDisplay(errorMessage).setVisible(true);
 				}
-				
 			}
 		});
 
